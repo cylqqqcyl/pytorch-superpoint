@@ -284,5 +284,12 @@ if __name__ == '__main__':
   model = model.to(device)
 
   # check keras-like model summary using torchsummary
+
   from torchsummary import summary
   summary(model, input_size=(1, 224, 224))
+
+  from visualize_net import make_graph
+  tm = torch.jit.trace(model, [torch.randn(3, 1, 224, 224)], strict=False)
+  d = make_graph(tm)
+  d.render('superpoint')
+  d
