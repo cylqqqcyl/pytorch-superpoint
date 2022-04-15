@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import SEAttention
+import SEAttention, CoordAttention
 from torch.nn.init import xavier_uniform_, zeros_
 
 
@@ -133,7 +133,8 @@ class SuperPointNet(torch.nn.Module):
         self.conv4b = torch.nn.Conv2d(c4, c4, kernel_size=3, stride=1, padding=1)
         self.bn4b = nn.GroupNorm(gn, c4) if useGn else nn.BatchNorm2d(c4)
         # SE Attention
-        self.SE = SEAttention.SEAttention(c4)
+        # self.SE = SEAttention.SEAttention(c4)
+        self.CAtt = CoordAttention.CoordAtt(c4, c4, reduction=32)
         # Detector Head.
         self.convPa = torch.nn.Conv2d(c4, c5, kernel_size=3, stride=1, padding=1)
         self.bnPa = nn.GroupNorm(gn, c5) if useGn else nn.BatchNorm2d(c5)
@@ -179,7 +180,8 @@ class SuperPointNet(torch.nn.Module):
             x = self.relu(self.bn4a(self.conv4a(x)))
             # x = self.relu(self.bn4b(self.conv4b(x)))
             # Attention
-            x = self.SE(self.bn4b(self.conv4b(x)))
+            # x = self.SE(self.bn4b(self.conv4b(x)))
+            x = self.CAtt(self.bn4b(self.conv4b(x)))
             x = self.relu(x)
             # Detector Head.
             cPa = self.relu(self.bnPa(self.convPa(x)))
@@ -201,7 +203,8 @@ class SuperPointNet(torch.nn.Module):
             x = self.bn4a(self.relu(self.conv4a(x)))
             # x = self.relu(self.bn4b(self.conv4b(x)))
             # Attention
-            x = self.SE(self.bn4b(self.conv4b(x)))
+            # x = self.SE(self.bn4b(self.conv4b(x)))
+            x = self.CAtt(self.bn4b(self.conv4b(x)))
             x = self.relu(x)
             # Detector Head.
             cPa = self.bnPa(self.relu(self.convPa(x)))
@@ -254,7 +257,8 @@ def forward_original(self, x):
     x = self.relu(self.conv4a(x))
     # x = self.relu(self.bn4b(self.conv4b(x)))
     # Attention
-    x = self.SE(self.bn4b(self.conv4b(x)))
+    # x = self.SE(self.bn4b(self.conv4b(x)))
+    x = self.CAtt(self.bn4b(self.conv4b(x)))
     x = self.relu(x)
     # Detector Head.
     cPa = self.relu(self.convPa(x))

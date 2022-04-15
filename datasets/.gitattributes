@@ -1,0 +1,1 @@
+magicpoint_synth20_homoAdapt100_coco_f1.zip filter=lfs diff=lfs merge=lfs -text
