@@ -1,130 +1,150 @@
 digraph {
 	graph [label=SuperPointNet labelloc=t]
-	"inp_x.1" [shape=ellipse]
-	.1177 [label="conv1a (Conv2d)" shape=box]
-	"inp_x.1" -> .1177
-	.1178 [label="bn1a (BatchNorm2d)" shape=box]
-	.1177 -> .1178
-	.1179 [label="relu (ReLU)" shape=box]
-	.1178 -> .1179
-	.1180 [label="conv1b (Conv2d)" shape=box]
-	.1179 -> .1180
-	.1181 [label="bn1b (BatchNorm2d)" shape=box]
-	.1180 -> .1181
-	.1182 [label="relu (ReLU)" shape=box]
-	.1181 -> .1182
-	.1183 [label="pool (MaxPool2d)" shape=box]
-	.1182 -> .1183
-	.1184 [label="conv2a (Conv2d)" shape=box]
-	.1183 -> .1184
-	.1185 [label="bn2a (BatchNorm2d)" shape=box]
-	.1184 -> .1185
-	.1186 [label="relu (ReLU)" shape=box]
-	.1185 -> .1186
-	.1187 [label="conv2b (Conv2d)" shape=box]
-	.1186 -> .1187
-	.1188 [label="bn2b (BatchNorm2d)" shape=box]
-	.1187 -> .1188
-	.1189 [label="relu (ReLU)" shape=box]
-	.1188 -> .1189
-	.1190 [label="pool (MaxPool2d)" shape=box]
-	.1189 -> .1190
-	.1191 [label="conv3a (Conv2d)" shape=box]
-	.1190 -> .1191
-	.1192 [label="bn3a (BatchNorm2d)" shape=box]
-	.1191 -> .1192
-	.1193 [label="relu (ReLU)" shape=box]
-	.1192 -> .1193
-	.1194 [label="conv3b (Conv2d)" shape=box]
-	.1193 -> .1194
-	.1195 [label="bn3b (BatchNorm2d)" shape=box]
-	.1194 -> .1195
-	.1196 [label="relu (ReLU)" shape=box]
-	.1195 -> .1196
-	.1197 [label="pool (MaxPool2d)" shape=box]
-	.1196 -> .1197
-	.1198 [label="conv4a (Conv2d)" shape=box]
-	.1197 -> .1198
-	.1199 [label="bn4a (BatchNorm2d)" shape=box]
-	.1198 -> .1199
-	.1200 [label="relu (ReLU)" shape=box]
-	.1199 -> .1200
-	.1201 [label="conv4b (Conv2d)" shape=box]
-	.1200 -> .1201
-	.1202 [label="bn4b (BatchNorm2d)" shape=box]
-	.1201 -> .1202
-	.1202 -> "CAtt.inp_10"
-	subgraph "cluster_.1203" {
-		label="CAtt (CoordAtt)"
-		"CAtt.inp_10" [shape=ellipse]
-		"CAtt..54" [label="CAtt.pool_h (AdaptiveAvgPool2d)" shape=box]
-		"CAtt.inp_10" -> "CAtt..54"
-		"CAtt..55" [label="CAtt.pool_w (AdaptiveAvgPool2d)" shape=box]
-		"CAtt.inp_10" -> "CAtt..55"
-		"CAtt..56" [label="CAtt.conv1 (Conv2d)" shape=box]
-		"CAtt..54" -> "CAtt..56"
-		"CAtt..55" -> "CAtt..56"
-		"CAtt..57" [label="CAtt.bn1 (BatchNorm2d)" shape=box]
-		"CAtt..56" -> "CAtt..57"
-		"CAtt..57" -> "CAtt.act.inp_1"
-		subgraph "cluster_CAtt..58" {
-			label="CAtt.act (h_swish)"
-			"CAtt.act.inp_1" [shape=ellipse]
-			"CAtt.act.inp_1" -> "CAtt.act.sigmoid.inp_1"
-			subgraph "cluster_CAtt.act..5" {
-				label="CAtt.act.sigmoid (h_sigmoid)"
-				"CAtt.act.sigmoid.inp_1" [shape=ellipse]
-				"CAtt.act.sigmoid..9" [label="CAtt.act.sigmoid.relu (ReLU6)" shape=box]
-				"CAtt.act.sigmoid.input.55" [label=add shape=box style=rounded]
-				"CAtt.act.sigmoid.inp_1" -> "CAtt.act.sigmoid.input.55"
-				"CAtt.act.sigmoid.input.55" -> "CAtt.act.sigmoid..9"
-				"CAtt.act.sigmoid.out_0" [shape=ellipse]
-				"inp_CAtt.act.sigmoid.out_0" [label=div shape=box style=rounded]
-				"CAtt.act.sigmoid..9" -> "inp_CAtt.act.sigmoid.out_0"
-				"inp_CAtt.act.sigmoid.out_0" -> "CAtt.act.sigmoid.out_0"
+	inp_x [shape=ellipse]
+	.1314 [label="conv1a (Conv2d)" shape=box]
+	inp_x -> .1314
+	.1315 [label="bn1a (BatchNorm2d)" shape=box]
+	.1314 -> .1315
+	.1316 [label="relu (ReLU)" shape=box]
+	.1315 -> .1316
+	.1317 [label="conv1b (Conv2d)" shape=box]
+	.1316 -> .1317
+	.1318 [label="bn1b (BatchNorm2d)" shape=box]
+	.1317 -> .1318
+	.1319 [label="relu (ReLU)" shape=box]
+	.1318 -> .1319
+	.1320 [label="pool (MaxPool2d)" shape=box]
+	.1319 -> .1320
+	.1321 [label="conv2a (Conv2d)" shape=box]
+	.1320 -> .1321
+	.1322 [label="bn2a (BatchNorm2d)" shape=box]
+	.1321 -> .1322
+	.1323 [label="relu (ReLU)" shape=box]
+	.1322 -> .1323
+	.1324 [label="conv2b (Conv2d)" shape=box]
+	.1323 -> .1324
+	.1325 [label="bn2b (BatchNorm2d)" shape=box]
+	.1324 -> .1325
+	.1326 [label="relu (ReLU)" shape=box]
+	.1325 -> .1326
+	.1327 [label="pool (MaxPool2d)" shape=box]
+	.1326 -> .1327
+	.1328 [label="conv3a (Conv2d)" shape=box]
+	.1327 -> .1328
+	.1329 [label="bn3a (BatchNorm2d)" shape=box]
+	.1328 -> .1329
+	.1330 [label="relu (ReLU)" shape=box]
+	.1329 -> .1330
+	.1331 [label="conv3b (Conv2d)" shape=box]
+	.1330 -> .1331
+	.1332 [label="bn3b (BatchNorm2d)" shape=box]
+	.1331 -> .1332
+	.1333 [label="relu (ReLU)" shape=box]
+	.1332 -> .1333
+	.1334 [label="pool (MaxPool2d)" shape=box]
+	.1333 -> .1334
+	.1335 [label="conv4a (Conv2d)" shape=box]
+	.1334 -> .1335
+	.1336 [label="bn4a (BatchNorm2d)" shape=box]
+	.1335 -> .1336
+	.1337 [label="relu (ReLU)" shape=box]
+	.1336 -> .1337
+	.1338 [label="conv4b (Conv2d)" shape=box]
+	.1337 -> .1338
+	.1339 [label="bn4b (BatchNorm2d)" shape=box]
+	.1338 -> .1339
+	.1339 -> "DAN.inp_5"
+	subgraph "cluster_.1340" {
+		label="DAN (DAModule)"
+		"DAN.inp_5" [shape=ellipse]
+		"DAN.inp_5" -> "DAN.position_attention_module.inp_1"
+		subgraph "cluster_DAN..37" {
+			label="DAN.position_attention_module (PositionAttentionModule)"
+			"DAN.position_attention_module.inp_1" [shape=ellipse]
+			"DAN.position_attention_module..28" [label="DAN.position_attention_module.cnn (Conv2d)" shape=box]
+			"DAN.position_attention_module.inp_1" -> "DAN.position_attention_module..28"
+			"DAN.position_attention_module..28" -> "DAN.position_attention_module.pa.inp_queries.1"
+			subgraph "cluster_DAN.position_attention_module..29" {
+				label="DAN.position_attention_module.pa (ScaledDotProductAttention)"
+				"DAN.position_attention_module.pa.inp_queries.1" [shape=ellipse]
+				"DAN.position_attention_module.pa..86" [label="DAN.position_attention_module.pa.fc_q (Linear)" shape=box]
+				"DAN.position_attention_module.pa.inp_queries.1" -> "DAN.position_attention_module.pa..86"
+				"DAN.position_attention_module.pa..87" [label="DAN.position_attention_module.pa.fc_k (Linear)" shape=box]
+				"DAN.position_attention_module.pa.inp_queries.1" -> "DAN.position_attention_module.pa..87"
+				"DAN.position_attention_module.pa..88" [label="DAN.position_attention_module.pa.fc_v (Linear)" shape=box]
+				"DAN.position_attention_module.pa.inp_queries.1" -> "DAN.position_attention_module.pa..88"
+				"DAN.position_attention_module.pa..89" [label="DAN.position_attention_module.pa.dropout (Dropout)" shape=box]
+				"DAN.position_attention_module.pa.input.53" [label="div softmax matmul" shape=box style=rounded]
+				"DAN.position_attention_module.pa..87" -> "DAN.position_attention_module.pa.input.53"
+				"DAN.position_attention_module.pa..86" -> "DAN.position_attention_module.pa.input.53"
+				"DAN.position_attention_module.pa.input.53" -> "DAN.position_attention_module.pa..89"
+				"DAN.position_attention_module.pa..90" [label="DAN.position_attention_module.pa.fc_o (Linear)" shape=box]
+				"DAN.position_attention_module.pa.input.55" [label=matmul shape=box style=rounded]
+				"DAN.position_attention_module.pa..89" -> "DAN.position_attention_module.pa.input.55"
+				"DAN.position_attention_module.pa..88" -> "DAN.position_attention_module.pa.input.55"
+				"DAN.position_attention_module.pa.input.55" -> "DAN.position_attention_module.pa..90"
+				"DAN.position_attention_module.pa.out_0" [shape=ellipse]
+				"DAN.position_attention_module.pa..90" -> "DAN.position_attention_module.pa.out_0"
 			}
-			"CAtt.act.out_0" [shape=ellipse]
-			"inp_CAtt.act.out_0" [label=mul shape=box style=rounded]
-			"CAtt.act.sigmoid.out_0" -> "inp_CAtt.act.out_0"
-			"CAtt.act.inp_1" -> "inp_CAtt.act.out_0"
-			"inp_CAtt.act.out_0" -> "CAtt.act.out_0"
+			"DAN.position_attention_module.out_0" [shape=ellipse]
+			"DAN.position_attention_module.pa.out_0" -> "DAN.position_attention_module.out_0"
 		}
-		"CAtt..59" [label="CAtt.conv_h (Conv2d)" shape=box]
-		"CAtt.act.out_0" -> "CAtt..59"
-		"CAtt..60" [label="CAtt.conv_w (Conv2d)" shape=box]
-		"CAtt.act.out_0" -> "CAtt..60"
-		"CAtt.out_0" [shape=ellipse]
-		"inp_CAtt.out_0" [label="mul sigmoid" shape=box style=rounded]
-		"CAtt..59" -> "inp_CAtt.out_0"
-		"CAtt..60" -> "inp_CAtt.out_0"
-		"CAtt.inp_10" -> "inp_CAtt.out_0"
-		"inp_CAtt.out_0" -> "CAtt.out_0"
+		"DAN.inp_5" -> "DAN.channel_attention_module.inp_1"
+		subgraph "cluster_DAN..38" {
+			label="DAN.channel_attention_module (ChannelAttentionModule)"
+			"DAN.channel_attention_module.inp_1" [shape=ellipse]
+			"DAN.channel_attention_module..23" [label="DAN.channel_attention_module.cnn (Conv2d)" shape=box]
+			"DAN.channel_attention_module.inp_1" -> "DAN.channel_attention_module..23"
+			"DAN.channel_attention_module..23" -> "DAN.channel_attention_module.pa.inp_queries"
+			subgraph "cluster_DAN.channel_attention_module..24" {
+				label="DAN.channel_attention_module.pa (SimplifiedScaledDotProductAttention)"
+				"DAN.channel_attention_module.pa.inp_queries" [shape=ellipse]
+				"DAN.channel_attention_module.pa..80" [label="DAN.channel_attention_module.pa.dropout (Dropout)" shape=box]
+				"DAN.channel_attention_module.pa.input.57" [label="div softmax matmul" shape=box style=rounded]
+				"DAN.channel_attention_module.pa.inp_queries" -> "DAN.channel_attention_module.pa.input.57"
+				"DAN.channel_attention_module.pa.input.57" -> "DAN.channel_attention_module.pa..80"
+				"DAN.channel_attention_module.pa..81" [label="DAN.channel_attention_module.pa.fc_o (Linear)" shape=box]
+				"DAN.channel_attention_module.pa.input.59" [label=matmul shape=box style=rounded]
+				"DAN.channel_attention_module.pa.inp_queries" -> "DAN.channel_attention_module.pa.input.59"
+				"DAN.channel_attention_module.pa..80" -> "DAN.channel_attention_module.pa.input.59"
+				"DAN.channel_attention_module.pa.input.59" -> "DAN.channel_attention_module.pa..81"
+				"DAN.channel_attention_module.pa.out_0" [shape=ellipse]
+				"DAN.channel_attention_module.pa..81" -> "DAN.channel_attention_module.pa.out_0"
+			}
+			"DAN.channel_attention_module.out_0" [shape=ellipse]
+			"DAN.channel_attention_module.pa.out_0" -> "DAN.channel_attention_module.out_0"
+		}
+		"DAN.out_0" [shape=ellipse]
+		"inp_DAN.out_0" [label=add shape=box style=rounded]
+		"DAN.channel_attention_module.out_0" -> "inp_DAN.out_0"
+		"DAN.position_attention_module.out_0" -> "inp_DAN.out_0"
+		"inp_DAN.out_0" -> "DAN.out_0"
 	}
-	.1204 [label="relu (ReLU)" shape=box]
-	"CAtt.out_0" -> .1204
-	.1205 [label="convPa (Conv2d)" shape=box]
-	.1204 -> .1205
-	.1206 [label="bnPa (BatchNorm2d)" shape=box]
-	.1205 -> .1206
-	.1207 [label="relu (ReLU)" shape=box]
-	.1206 -> .1207
-	.1208 [label="convPb (Conv2d)" shape=box]
-	.1207 -> .1208
-	.1209 [label="bnPb (BatchNorm2d)" shape=box]
-	.1208 -> .1209
-	.1210 [label="convDa (Conv2d)" shape=box]
-	.1204 -> .1210
-	.1211 [label="bnDa (BatchNorm2d)" shape=box]
-	.1210 -> .1211
-	.1212 [label="relu (ReLU)" shape=box]
-	.1211 -> .1212
-	.1213 [label="convDb (Conv2d)" shape=box]
-	.1212 -> .1213
-	.1214 [label="bnDb (BatchNorm2d)" shape=box]
-	.1213 -> .1214
+	.1341 [label="relu (ReLU)" shape=box]
+	"DAN.out_0" -> .1341
+	.1342 [label="convPa (Conv2d)" shape=box]
+	.1341 -> .1342
+	.1343 [label="bnPa (BatchNorm2d)" shape=box]
+	.1342 -> .1343
+	.1344 [label="relu (ReLU)" shape=box]
+	.1343 -> .1344
+	.1345 [label="convPb (Conv2d)" shape=box]
+	.1344 -> .1345
+	.1346 [label="bnPb (BatchNorm2d)" shape=box]
+	.1345 -> .1346
+	.1347 [label="convDa (Conv2d)" shape=box]
+	.1341 -> .1347
+	.1348 [label="bnDa (BatchNorm2d)" shape=box]
+	.1347 -> .1348
+	.1349 [label="relu (ReLU)" shape=box]
+	.1348 -> .1349
+	.1350 [label="convDb (Conv2d)" shape=box]
+	.1349 -> .1350
+	.1351 [label="bnDb (BatchNorm2d)" shape=box]
+	.1350 -> .1351
 	out_0 [shape=ellipse]
 	inp_out_0 [label="div norm" shape=box style=rounded]
-	.1209 -> inp_out_0
-	.1214 -> inp_out_0
+	.1351 -> inp_out_0
+	.1346 -> inp_out_0
 	inp_out_0 -> out_0
 }

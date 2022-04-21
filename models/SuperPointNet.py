@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import SEAttention, CoordAttention
+import SEAttention, CoordAttention,DANet
 from torch.nn.init import xavier_uniform_, zeros_
 
 
@@ -134,7 +134,8 @@ class SuperPointNet(torch.nn.Module):
         self.bn4b = nn.GroupNorm(gn, c4) if useGn else nn.BatchNorm2d(c4)
         # SE Attention
         # self.SE = SEAttention.SEAttention(c4)
-        self.CAtt = CoordAttention.CoordAtt(c4, c4, reduction=32)
+        # self.CAtt = CoordAttention.CoordAtt(c4, c4, reduction=32)
+        self.DAN = DANet.DAModule(d_model=c4, kernel_size=3, H=28, W=28)
         # Detector Head.
         self.convPa = torch.nn.Conv2d(c4, c5, kernel_size=3, stride=1, padding=1)
         self.bnPa = nn.GroupNorm(gn, c5) if useGn else nn.BatchNorm2d(c5)
@@ -181,7 +182,8 @@ class SuperPointNet(torch.nn.Module):
             # x = self.relu(self.bn4b(self.conv4b(x)))
             # Attention
             # x = self.SE(self.bn4b(self.conv4b(x)))
-            x = self.CAtt(self.bn4b(self.conv4b(x)))
+            # x = self.CAtt(self.bn4b(self.conv4b(x)))
+            x = self.DAN(self.bn4b(self.conv4b(x)))
             x = self.relu(x)
             # Detector Head.
             cPa = self.relu(self.bnPa(self.convPa(x)))
@@ -204,7 +206,8 @@ class SuperPointNet(torch.nn.Module):
             # x = self.relu(self.bn4b(self.conv4b(x)))
             # Attention
             # x = self.SE(self.bn4b(self.conv4b(x)))
-            x = self.CAtt(self.bn4b(self.conv4b(x)))
+            # x = self.CAtt(self.bn4b(self.conv4b(x)))
+            x = self.DAN(self.bn4b(self.conv4b(x)))
             x = self.relu(x)
             # Detector Head.
             cPa = self.bnPa(self.relu(self.convPa(x)))
@@ -258,7 +261,8 @@ def forward_original(self, x):
     # x = self.relu(self.bn4b(self.conv4b(x)))
     # Attention
     # x = self.SE(self.bn4b(self.conv4b(x)))
-    x = self.CAtt(self.bn4b(self.conv4b(x)))
+    # x = self.CAtt(self.bn4b(self.conv4b(x)))
+    x = self.DAN(self.bn4b(self.conv4b(x)))
     x = self.relu(x)
     # Detector Head.
     cPa = self.relu(self.convPa(x))
