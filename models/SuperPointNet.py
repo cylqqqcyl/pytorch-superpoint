@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-import SEAttention, CoordAttention,DANet
+import SEAttention, CoordAttention,DANet,MobileViTAttention
 from torch.nn.init import xavier_uniform_, zeros_
 
 
@@ -132,10 +132,13 @@ class SuperPointNet(torch.nn.Module):
         self.bn4a = nn.GroupNorm(gn, c4) if useGn else nn.BatchNorm2d(c4)
         self.conv4b = torch.nn.Conv2d(c4, c4, kernel_size=3, stride=1, padding=1)
         self.bn4b = nn.GroupNorm(gn, c4) if useGn else nn.BatchNorm2d(c4)
-        # SE Attention
-        # self.SE = SEAttention.SEAttention(c4)
-        # self.CAtt = CoordAttention.CoordAtt(c4, c4, reduction=32)
-        self.DAN = DANet.DAModule(d_model=c4, kernel_size=3, H=28, W=28)
+        # ViT
+        # self.ViT = MobileViT.mobilevit_s()
+        # Attention
+        self.Att = MobileViTAttention.MobileViTAttention(in_channel=c4)
+        # self.Att = SEAttention.SEAttention(c4)
+        # self.Att = CoordAttention.CoordAtt(c4, c4, reduction=32)
+        # self.Att = DANet.DAModule(d_model=c4, kernel_size=3, H=28, W=28)
         # Detector Head.
         self.convPa = torch.nn.Conv2d(c4, c5, kernel_size=3, stride=1, padding=1)
         self.bnPa = nn.GroupNorm(gn, c5) if useGn else nn.BatchNorm2d(c5)
@@ -180,10 +183,10 @@ class SuperPointNet(torch.nn.Module):
             x, ind3 = self.pool(conv3)
             x = self.relu(self.bn4a(self.conv4a(x)))
             # x = self.relu(self.bn4b(self.conv4b(x)))
+            # ViT
+            # x = self.ViT(self.bn4b(self.conv4b(x)))
             # Attention
-            # x = self.SE(self.bn4b(self.conv4b(x)))
-            # x = self.CAtt(self.bn4b(self.conv4b(x)))
-            x = self.DAN(self.bn4b(self.conv4b(x)))
+            x = self.Att(self.bn4b(self.conv4b(x)))
             x = self.relu(x)
             # Detector Head.
             cPa = self.relu(self.bnPa(self.convPa(x)))
@@ -204,10 +207,10 @@ class SuperPointNet(torch.nn.Module):
             x = self.pool(x)
             x = self.bn4a(self.relu(self.conv4a(x)))
             # x = self.relu(self.bn4b(self.conv4b(x)))
+            # ViT
+            # x = self.ViT(self.bn4b(self.conv4b(x)))
             # Attention
-            # x = self.SE(self.bn4b(self.conv4b(x)))
-            # x = self.CAtt(self.bn4b(self.conv4b(x)))
-            x = self.DAN(self.bn4b(self.conv4b(x)))
+            x = self.Att(self.bn4b(self.conv4b(x)))
             x = self.relu(x)
             # Detector Head.
             cPa = self.bnPa(self.relu(self.convPa(x)))
@@ -258,11 +261,11 @@ def forward_original(self, x):
     x = self.relu(self.conv3b(x))
     x = self.pool(x)
     x = self.relu(self.conv4a(x))
+    # ViT
+    # x = self.ViT(self.bn4b(self.conv4b(x)))
     # x = self.relu(self.bn4b(self.conv4b(x)))
     # Attention
-    # x = self.SE(self.bn4b(self.conv4b(x)))
-    # x = self.CAtt(self.bn4b(self.conv4b(x)))
-    x = self.DAN(self.bn4b(self.conv4b(x)))
+    x = self.Att(self.bn4b(self.conv4b(x)))
     x = self.relu(x)
     # Detector Head.
     cPa = self.relu(self.convPa(x))
